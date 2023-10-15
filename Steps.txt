@@ -1,0 +1,35 @@
+To create a matching engine for FX orders in Scala, you can follow these steps:
+
+1. Read Orders from CSV File:
+   - Read the CSV file (exampleOrders.csv) containing orders for the USD/GBP currency pair.
+   - Create a data structure to hold each order, including order ID, user name, order time, order type, quantity, and price.
+
+2. Initialize Data Structures:
+   - Create data structures to represent an "order book" for both BUY and SELL orders. The order book should maintain the orders based on their type and price.
+
+3. Order Matching:
+   - Iterate through the orders one by one, in the order they were placed (based on the order time).
+   - Check the type of the current order (BUY or SELL).
+   
+4. Matching BUY Orders (BUY-side Matching):
+   - If it's a BUY order, check the SELL order book to find a matching SELL order with the same quantity.
+   - If a matching SELL order is found, record the match details (IDs of both orders, price, quantity, and match time) and remove the matched SELL order from the order book.
+   - If no matching SELL order is found, add the BUY order to the BUY order book.
+
+5. Matching SELL Orders (SELL-side Matching):
+   - If it's a SELL order, check the BUY order book to find a matching BUY order with the same quantity.
+   - If a matching BUY order is found, record the match details (IDs of both orders, price, quantity, and match time) and remove the matched BUY order from the order book.
+   - If no matching BUY order is found, add the SELL order to the SELL order book.
+
+6. Match Price Priority:
+   - When multiple orders match with the same price, ensure that the first order that arrived is used for the match. This maintains order priority.
+
+7. Write Match Details to Output CSV:
+   - As matches occur, record the match details (BUY and SELL order IDs, price, quantity, and match time).
+   - Write the match details to an output CSV file (outputExampleMatches.csv).
+
+8. Repeat for All Orders:
+   - Continue this process for all orders in the CSV file, ensuring that orders are processed in chronological order based on their order time.
+
+9. Close Matched Orders:
+   - Once orders are matched, they should be closed, meaning they are no longer available for further matching.
